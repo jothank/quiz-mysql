@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { FaLinkedin, FaGithub, FaEnvelope } from "react-icons/fa";
 import "./globals.css";
 
 export default function Home() {
@@ -45,28 +46,25 @@ export default function Home() {
       }),
     });
     const data = await response.json();
-  
-    // Atualize as tentativas usando a função de estado anterior
+
     setAttempts((prevAttempts) => prevAttempts + 1);
-  
+
     if (data.isCorrect) {
       const pointsEarned = Math.max(10 - attempts, 0);
-  
-      // Use a função de atualização para garantir o valor correto de totalScore
+
       setTotalScore((prevTotalScore) => {
         const newTotalScore = prevTotalScore + pointsEarned;
-  
+
         setFeedback(`Resposta correta! Você ganhou ${pointsEarned} pontos.`);
-  
+
         setTimeout(() => {
           if (currentQuestionIndex + 1 < questions.length) {
             loadNextQuestion();
           } else {
-            // Redireciona para a página de parabéns com o totalScore atualizado
             router.push(`/congrats?score=${newTotalScore}`);
           }
         }, 2000);
-  
+
         return newTotalScore;
       });
     } else {
@@ -79,14 +77,12 @@ export default function Home() {
           if (currentQuestionIndex + 1 < questions.length) {
             loadNextQuestion();
           } else {
-            // Redireciona com o totalScore atual, pois não houve ganho de pontos
             router.push(`/congrats?score=${totalScore}`);
           }
         }, 2000);
       }
     }
   };
-  
 
   if (questions.length === 0) {
     return <div>Carregando...</div>;
@@ -112,6 +108,29 @@ export default function Home() {
           <p>Pontuação: {totalScore}</p>
         </div>
       </div>
+      <footer className="footer">
+        <p>
+          <a
+            href="https://www.linkedin.com/in/jothank/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaLinkedin size={20} /> LinkedIn
+          </a>{" "}
+          |
+          <a
+            href="https://github.com/jothank"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaGithub size={20} /> GitHub
+          </a>{" "}
+          |
+          <a href="mailto:jothank@hotmail.com">
+            <FaEnvelope size={20} /> Email
+          </a>
+        </p>
+      </footer>
     </div>
   );
 }
