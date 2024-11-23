@@ -16,6 +16,7 @@ Este é um projeto [Next.js](https://nextjs.org) criado com [`create-next-app`](
 ## Introdução
 
 O **Quiz MySQL** é uma aplicação interativa desenvolvida para testar e melhorar os conhecimentos dos usuários em MySQL. A aplicação carrega perguntas diretamente de um servidor, permitindo que os usuários respondam, recebam feedback em tempo real e acompanhem sua pontuação final.
+
 Você pode testar a aplicação ao vivo em: https://quiz-mysql.vercel.app/
 
 ---
