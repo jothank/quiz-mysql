@@ -9,6 +9,7 @@ export default function Home() {
   interface Question {
     id: number;
     question: string;
+    example?: string;
   }
 
   const router = useRouter(); // Usado para redirecionar para a página de parabéns
@@ -96,6 +97,12 @@ export default function Home() {
       <div className="quiz">
         <div className="questionContainer">
           <h2>{currentQuestion.question}</h2>
+          <h2>{currentQuestion.question}</h2>
+            {currentQuestion.example && (
+              <p className="example">
+                <strong>Exemplo:</strong> {currentQuestion.example}
+              </p>
+            )}
           <textarea
             value={answerInput}
             onChange={(e) => setAnswerInput(e.target.value)}
