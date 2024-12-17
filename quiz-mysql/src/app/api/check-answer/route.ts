@@ -22,11 +22,16 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Questão não encontrada" }, { status: 404 });
   }
 
+  // Função para normalizar e substituir valores dinâmicos
   const normalize = (str: string) =>
-    str.trim().toUpperCase().replace(/\s+/g, " ").replace(/;/g, "");
+    str
+      .trim()
+      .toUpperCase()
+      .replace(/\s+/g, " ") // Normaliza espaços
+      .replace(/'.+?'/g, "'PLACEHOLDER'") // Substitui strings entre aspas
+      .replace(/\d+(\.\d+)?/g, "NUMBER"); // Substitui números por 'NUMBER'
 
-  const isCorrect =
-    normalize(userAnswer) === normalize(correctAnswer);
+  const isCorrect = normalize(userAnswer) === normalize(correctAnswer);
 
   return NextResponse.json({ isCorrect });
 }
