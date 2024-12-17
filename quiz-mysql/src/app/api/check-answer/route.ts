@@ -22,13 +22,16 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Questão não encontrada" }, { status: 404 });
   }
 
-  // Função para normalizar e substituir apenas valores dentro do VALUES
+  // Normalização avançada para SQL
   const normalize = (str: string) =>
     str
       .trim()
       .toUpperCase()
-      .replace(/\s+/g, " ") // Normaliza espaços
-      .replace(/VALUES\s*\(.*?\)/i, "VALUES (PLACEHOLDER)"); // Substitui o conteúdo de VALUES
+      .replace(/\s+/g, " ") // Substitui múltiplos espaços por um único espaço
+      .replace(/\s*([=><!]+)\s*/g, " $1 ") // Garante um espaço ao redor dos operadores =, >, <, !=, etc.
+      .replace(/\s*\(\s*/g, "(") // Remove espaços extras após parênteses de abertura
+      .replace(/\s*\)\s*/g, ")") // Remove espaços extras antes de parênteses de fechamento
+      .replace(/VALUES\s*\(.*?\)/i, "VALUES (PLACEHOLDER)"); // Substitui o conteúdo de VALUES por um placeholder
 
   const isCorrect = normalize(userAnswer) === normalize(correctAnswer);
 
