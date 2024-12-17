@@ -22,14 +22,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ message: "Questão não encontrada" }, { status: 404 });
   }
 
-  // Função para normalizar e substituir valores dinâmicos
+  // Função para normalizar e substituir apenas valores dentro do VALUES
   const normalize = (str: string) =>
     str
       .trim()
       .toUpperCase()
       .replace(/\s+/g, " ") // Normaliza espaços
-      .replace(/'.+?'/g, "'PLACEHOLDER'") // Substitui strings entre aspas
-      .replace(/\d+(\.\d+)?/g, "NUMBER"); // Substitui números por 'NUMBER'
+      .replace(/VALUES\s*\(.*?\)/i, "VALUES (PLACEHOLDER)"); // Substitui o conteúdo de VALUES
 
   const isCorrect = normalize(userAnswer) === normalize(correctAnswer);
 
